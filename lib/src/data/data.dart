@@ -43,6 +43,7 @@ class DataState extends _$DataState {
 
   Future<void> clear() async {
     final pref = ref.watch(sharedPreferencesProvider);
+    state = null;
     pref.clear();
   }
 

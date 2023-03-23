@@ -6,6 +6,7 @@ import 'package:attendance/src/data/data.dart';
 import 'package:attendance/src/departments/departments.dart';
 import 'package:attendance/src/validator.dart';
 import 'package:attendance/styles.dart';
+import 'package:attendance/widgets/gradient_scaffold.dart';
 import 'package:attendance/widgets/submit.dart';
 import 'package:attendance/widgets/upload_image.dart';
 import 'package:attendance/widgets/widgets.dart';
@@ -42,7 +43,7 @@ class _SignUpTeacherState extends ConsumerState<TeacherSignUp> with Validator {
       }
     });
 
-    return Scaffold(
+    return GradientScaffold(
       body: SafeArea(
         child: Form(
           key: form,

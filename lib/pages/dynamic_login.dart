@@ -3,6 +3,7 @@ import 'package:attendance/src/authentication/authentication.dart';
 import 'package:attendance/src/data/data.dart';
 import 'package:attendance/src/validator.dart';
 import 'package:attendance/styles.dart';
+import 'package:attendance/widgets/gradient_scaffold.dart';
 import 'package:attendance/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,7 +35,7 @@ class _DynamicLoginState extends ConsumerState<DynamicLogin> with Validator {
       }
     });
 
-    return Scaffold(
+    return GradientScaffold(
       body: Form(
         key: form,
         child: Center(

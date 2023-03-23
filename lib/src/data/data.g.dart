@@ -27,7 +27,7 @@ const _$UserTypeEnumMap = {
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dataStateHash() => r'8813983d7019e5233c7ac8b803fff4990bff815f';
+String _$dataStateHash() => r'2e4b2a734efded4d8b67074ef9e6fdd090352958';
 
 /// See also [DataState].
 @ProviderFor(DataState)

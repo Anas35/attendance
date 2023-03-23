@@ -1,4 +1,5 @@
 import 'package:attendance/styles.dart';
+import 'package:attendance/widgets/gradient_scaffold.dart';
 import 'package:attendance/widgets/pop_back.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer(
-      child: Scaffold(
+      child: GradientScaffold(
         appBar: const PopBackAppBar(),
         body: ListView(
           physics: const NeverScrollableScrollPhysics(),
@@ -65,9 +66,9 @@ class ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
 
   LinearGradient get shimmerGradient => LinearGradient(
     colors: const [
-      lightTextColor,
+      Color(0xFFd6d8da),
       Color(0xFFF4F4F4),
-      lightTextColor,
+      Color(0xFFd6d8da),
     ],
     stops: const [0.1, 0.3, 0.4],
     begin: const Alignment(-1.0, -0.3),

@@ -3,6 +3,8 @@ import 'package:attendance/src/record/record.dart';
 import 'package:attendance/src/repository.dart';
 import 'package:attendance/src/student/student.dart';
 import 'package:attendance/styles.dart';
+import 'package:attendance/widgets/gradient_scaffold.dart';
+import 'package:attendance/widgets/loading.dart';
 import 'package:attendance/widgets/pop_back.dart';
 import 'package:attendance/widgets/submit.dart';
 import 'package:flutter/material.dart';
@@ -32,56 +34,54 @@ class _TakeAttendanceState extends ConsumerState<TakeAttendance> {
 
     return regNo.when(
       data: (students) {
-        return Scaffold(
+        return GradientScaffold(
           appBar: const PopBackAppBar(),
-          body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView.builder(
-              itemCount: students.length + 1,
-              itemBuilder: (context, index) {
-                if (index == students.length) {
-                  return Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: lightPrimaryColor,
-                        foregroundColor: darkTextColor,
-                        fixedSize: const Size(double.maxFinite, 54.0),
-                      ),
-                      onPressed: () {
-                        final List<Record> records = [];
-                        for (int i = 0; i < students.length; i++) {
-                          records.add(Record(regNo: students[i].regNo, present: present[i]));
-                        }
-                  
-                        ref.read(recordStateProvider.notifier).submit(records);
-                      },
-                      child: attendance.maybeMap(
-                        orElse: () => const Text('Submit'),
-                        loading: (_) => const CircularProgressIndicator(),
-                      ),
+          body: ListView.builder(
+            itemCount: students.length + 1,
+            itemBuilder: (context, index) {
+              if (index == students.length) {
+                return Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: lightPrimaryColor,
+                      foregroundColor: darkTextColor,
+                      fixedSize: const Size(double.maxFinite, 54.0),
                     ),
-                  );
-                }
-
-                return Container(
-                  alignment: Alignment.center,
-                  margin: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
-                  height: 75.0,
-                  decoration: const BoxDecoration(
-                    color: lightTextColor,
-                    borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(0, 2),
-                        blurRadius: 5.0,
-                        color: darkTextColor,
-                      ),
-                    ],
+                    onPressed: () {
+                      final List<Record> records = [];
+                      for (int i = 0; i < students.length; i++) {
+                        records.add(Record(regNo: students[i].regNo, present: present[i]));
+                      }
+                
+                      ref.read(recordStateProvider.notifier).submit(records);
+                    },
+                    child: attendance.maybeMap(
+                      orElse: () => const Text('Submit'),
+                      loading: (_) => const CircularProgressIndicator(),
+                    ),
                   ),
-                  child: Row(
-                    children: [
-                      ClipRRect(
+                );
+              }
+          
+              return Container(
+                margin: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
+                height: 75.0,
+                decoration: const BoxDecoration(
+                  color: lightTextColor,
+                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                  boxShadow: [
+                    BoxShadow(
+                      offset: Offset(0, 2),
+                      blurRadius: 5.0,
+                      color: darkTextColor,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Container(
                           padding: const EdgeInsets.all(8.0),
@@ -91,7 +91,10 @@ class _TakeAttendanceState extends ConsumerState<TakeAttendance> {
                           child: Image.network('${Repository.url}/images/students/${students[index].regNo}'),
                         ),
                       ),
-                      Column(
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -109,60 +112,57 @@ class _TakeAttendanceState extends ConsumerState<TakeAttendance> {
                           ),
                         ],
                       ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0)
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: SegmentedButton<bool>(
+                        style: ButtonStyle(
+                          padding: const MaterialStatePropertyAll(EdgeInsets.all(30.0)),
+                          side: MaterialStateProperty.all(
+                            BorderSide.none,
                           ),
-                          backgroundColor: Colors.green,
-                          foregroundColor: darkTextColor,
-                          fixedSize: const Size(48.0, 54.0),
+                          backgroundColor: MaterialStateProperty.resolveWith((states) {
+                            if (states.contains(MaterialState.selected)) {
+                              if (present[index]) {
+                                return Colors.green;
+                              } else {
+                                return Colors.red;
+                              }
+                            }
+                            return Colors.grey.shade300;
+                          }),
+                          shape: const MaterialStatePropertyAll<OutlinedBorder>(
+                            BeveledRectangleBorder(),
+                          ),
                         ),
-                        child: const Icon(Icons.done, size: 28.0, weight: 0.5),
+                        segments: const [
+                          ButtonSegment(
+                            value: true,
+                            icon: Icon(Icons.done, color: darkTextColor, weight: 0.5),
+                          ),
+                          ButtonSegment(
+                            value: false,
+                            icon: Icon(Icons.close, color: darkTextColor, weight: 0.5),
+                          ),
+                        ],
+                        showSelectedIcon: false,
+                        selected: {present[index]},
+                        onSelectionChanged: (Set<bool> newSelection) {
+                          setState(() {
+                            present[index] = newSelection.first;
+                          });
+                        },
                       ),
-
-                      /*Expanded(
-                        child: SegmentedButton<bool>(
-                          style: ButtonStyle(
-                            side: MaterialStateProperty.all(
-                              const BorderSide(color: Colors.black),
-                            ),
-                            shape: const MaterialStatePropertyAll<OutlinedBorder>(
-                              BeveledRectangleBorder(),
-                            ),
-                          ),
-                          segments: const [
-                            ButtonSegment(
-                              value: true,
-                              label: Text('Present'),
-                              icon: Icon(Icons.done),
-                            ),
-                            ButtonSegment(
-                              value: false,
-                              label: Text('Absent'),
-                              icon: Icon(Icons.close),
-                            ),
-                          ],
-                          showSelectedIcon: false,
-                          selected: {present[index]},
-                          onSelectionChanged: (Set<bool> newSelection) {
-                            setState(() {
-                              present[index] = newSelection.first;
-                            });
-                          },
-                        ),
-                      ),*/
-                    ],
-                  ),
-                );
-              },
-            ),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         );
       },
       error: (e, stk) => Center(child: Text('$e')),
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const Loading(),
     );
   }
 }

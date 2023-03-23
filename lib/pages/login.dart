@@ -1,5 +1,6 @@
 import 'package:attendance/pages/routes.dart';
 import 'package:attendance/styles.dart';
+import 'package:attendance/widgets/gradient_scaffold.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return GradientScaffold(
       body: SafeArea(
         child: Center(
           child: Column(

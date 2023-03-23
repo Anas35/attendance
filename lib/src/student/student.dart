@@ -22,7 +22,7 @@ Future<List<Student>> getStudentList(GetStudentListRef ref) async {
   );
 }
 
-@Riverpod(keepAlive: true, dependencies: [repository])
+@Riverpod(keepAlive: true)
 class StudentState extends _$StudentState {
 
   @override

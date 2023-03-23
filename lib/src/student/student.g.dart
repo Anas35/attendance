@@ -57,7 +57,7 @@ final getStudentListProvider =
 );
 
 typedef GetStudentListRef = AutoDisposeFutureProviderRef<List<Student>>;
-String _$studentStateHash() => r'87afaaf701e6997155befb4b08cab99e9f127aa3';
+String _$studentStateHash() => r'56b780792fdde35b94dcef87026af530519a09e4';
 
 /// See also [StudentState].
 @ProviderFor(StudentState)
@@ -67,8 +67,8 @@ final studentStateProvider =
   name: r'studentStateProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$studentStateHash,
-  dependencies: <ProviderOrFamily>[repositoryProvider],
-  allTransitiveDependencies: <ProviderOrFamily>[repositoryProvider],
+  dependencies: null,
+  allTransitiveDependencies: null,
 );
 
 typedef _$StudentState = AsyncNotifier<Student>;

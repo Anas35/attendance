@@ -6,6 +6,8 @@ import 'package:attendance/src/class/class.dart';
 import 'package:attendance/src/data/data.dart';
 import 'package:attendance/src/departments/departments.dart';
 import 'package:attendance/src/record/record.dart';
+import 'package:attendance/src/record/student_attendance.dart';
+import 'package:attendance/src/record/today_attendance.dart';
 import 'package:attendance/src/student/student.dart';
 import 'package:attendance/src/subject/subject.dart';
 import 'package:http/http.dart' as http;
@@ -211,7 +213,7 @@ class Repository {
     }
   }
 
-  Future<AttendanceRecordResponseList> viewStudentAttendance({required String regNo, DateTime? from, DateTime? until}) async {
+  Future<StudentAttendance> viewStudentAttendance({required String regNo, DateTime? from, DateTime? until}) async {
 
     String localUrl = '$url/students/$regNo/records?';
 
@@ -233,13 +235,14 @@ class Repository {
 
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
-      return AttendanceRecordResponseList.fromJson(json);
+      return StudentAttendance.fromJson(json['data']);
     } else {
+      print(response.body);
       throw response.statusCode;
     }
   }
 
-  Future<AttendanceRecordResponseList> viewTodayStudentAttendance({required String regNo}) async {
+  Future<TodayAttendanceList> viewTodayStudentAttendance({required String regNo}) async {
 
     final response = await http.get(
       Uri.parse('$url/students/$regNo/recordsToday'),
@@ -251,7 +254,7 @@ class Repository {
 
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
-      return AttendanceRecordResponseList.fromJson(json);
+      return TodayAttendanceList.fromJson(json);
     } else {
       throw jsonDecode(response.body)?['message'] ?? 'Error';
     }

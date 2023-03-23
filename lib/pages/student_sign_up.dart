@@ -7,6 +7,7 @@ import 'package:attendance/src/data/data.dart';
 import 'package:attendance/src/departments/departments.dart';
 import 'package:attendance/src/validator.dart';
 import 'package:attendance/styles.dart';
+import 'package:attendance/widgets/gradient_scaffold.dart';
 import 'package:attendance/widgets/submit.dart';
 import 'package:attendance/widgets/upload_image.dart';
 import 'package:attendance/widgets/widgets.dart';
@@ -42,7 +43,7 @@ class _StudentRegisterPageState extends ConsumerState<StudentSignUp> with Valida
       }
     });
 
-    return Scaffold(
+    return GradientScaffold(
       body: Form(
         key: form,
         child: Center(
@@ -71,12 +72,12 @@ class _StudentRegisterPageState extends ConsumerState<StudentSignUp> with Valida
               FormInput(
                 hintText: 'Enter Your Name..*',
                 validator: nameValidator,
-                onSaved: (value) => inputData['teacherName'] = value!,
+                onSaved: (value) => inputData['studentName'] = value!,
               ),
               FormInput(
                 hintText: 'Enter Your Register No..*',
                 validator: teacherIdValidator,
-                onSaved: (value) => inputData['teacherId'] = value!,
+                onSaved: (value) => inputData['regNo'] = value!,
               ),
               SelectAsynInput<Department>(
                 data: ref.watch(getDepartmentListProvider.future),
@@ -138,7 +139,7 @@ class _StudentRegisterPageState extends ConsumerState<StudentSignUp> with Valida
                   }
                   if (form.currentState!.validate()) {
                     form.currentState!.save();
-                    ref.read(authenticationProvider.notifier).register(UserType.teacher, inputData, file!);
+                    ref.read(authenticationProvider.notifier).register(UserType.student, inputData, file!);
                   }
                 },
                 child: studentRegister.maybeWhen(

@@ -1,5 +1,7 @@
 import 'package:attendance/pages/routes.dart';
 import 'package:attendance/src/data/data.dart';
+import 'package:attendance/src/teacher/teacher.dart';
+import 'package:attendance/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -13,16 +15,22 @@ class LogOut extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Log Out'),
-      content: const Text('Are you sure you want to log out?'),
+      backgroundColor: lightTextColor,
+      title: const Text('Log Out', style: darkTitleStyle),
+      content: const Text('Are you sure you want to log out?', style: darkSubTitleStyle),
       actions: [
         Consumer(
           builder: (context, ref, _) {
             return TextButton(
-              onPressed: () {
+              onPressed: () async {
                 ref.read(dataStateProvider.notifier).clear();
-                context.popUntil('/');
+                context.pushNamedAndRemoveUntil(AppRoutes.startUpPage);
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: primaryColor,
+                foregroundColor: lightTextColor,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+              ),
               child: const Text('Yes')
             );
           }
@@ -30,7 +38,12 @@ class LogOut extends StatelessWidget {
         TextButton(
           onPressed: () {
             Navigator.pop(context);
-          }, 
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: semiLightPrimaryColor,
+            foregroundColor: lightTextColor,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+          ),
           child: const Text('No')
         ),
       ],

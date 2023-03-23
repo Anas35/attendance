@@ -14,6 +14,7 @@ import 'package:attendance/pages/teacher/update.dart';
 import 'package:attendance/pages/teacher/view_class_attendance.dart';
 import 'package:attendance/pages/teacher_sign_up.dart';
 import 'package:attendance/src/data/data.dart';
+import 'package:attendance/src/student/student.dart';
 
 import 'package:flutter/material.dart';
 
@@ -126,7 +127,7 @@ class AppRouter {
         );
       case AppRoutes.viewStudentAttendance:
         return MaterialPageRoute<dynamic>(
-          builder: (_) => const ViewStudentAttendance(),
+          builder: (_) => ViewStudentAttendance(regNo: settings.arguments as String),
           settings: settings,
         );
       case AppRoutes.viewTodayAttendance:

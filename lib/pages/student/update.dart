@@ -4,6 +4,7 @@ import 'package:attendance/src/departments/departments.dart';
 import 'package:attendance/src/repository.dart';
 import 'package:attendance/src/student/student.dart';
 import 'package:attendance/src/validator.dart';
+import 'package:attendance/widgets/gradient_scaffold.dart';
 import 'package:attendance/widgets/select_classes.dart';
 import 'package:attendance/widgets/select_departments.dart';
 import 'package:attendance/widgets/widgets.dart';
@@ -27,7 +28,7 @@ class _StudentUpdatePageState extends ConsumerState<StudentUpdatePage> with Vali
   Widget build(BuildContext context) {
     final student = ref.watch(studentStateProvider);
 
-    return Scaffold(
+    return GradientScaffold(
       body: student.when(
         data: (data) {
           inputData['departmentId'] = '${data.departmentId}';

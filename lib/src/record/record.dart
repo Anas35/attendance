@@ -14,17 +14,6 @@ Future<AttendanceRecordResponseList> getClassRecords(GetClassRecordsRef ref, {re
   return await repository.viewClassAttedance(classId: classId);
 }
 
-@riverpod
-Future<AttendanceRecordResponseList> getStudentRecords(GetStudentRecordsRef ref, {required String regNo, DateTime? fromDate, DateTime? until}) async {
-  final repository = ref.watch(repositoryProvider);
-  return await repository.viewStudentAttendance(regNo: regNo, from: fromDate, until: until);
-}
-
-@riverpod
-Future<AttendanceRecordResponseList> getTodayStudentRecords(GetTodayStudentRecordsRef ref, {required String regNo}) async {
-  final repository = ref.watch(repositoryProvider);
-  return await repository.viewTodayStudentAttendance(regNo: regNo);
-}
 
 @riverpod
 class RecordState extends _$RecordState {

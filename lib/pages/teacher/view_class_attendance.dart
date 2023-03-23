@@ -1,82 +1,124 @@
 import 'package:attendance/src/record/record.dart';
 import 'package:attendance/src/repository.dart';
+import 'package:attendance/styles.dart';
+import 'package:attendance/widgets/gradient_scaffold.dart';
+import 'package:attendance/widgets/loading.dart';
+import 'package:attendance/widgets/pop_back.dart';
+import 'package:attendance/widgets/semi_title_text.dart';
+import 'package:attendance/widgets/shadow_container.dart';
+import 'package:attendance/widgets/table_row.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ViewClassAttendance extends ConsumerWidget {
+class ViewClassAttendance extends ConsumerStatefulWidget {
   const ViewClassAttendance({required this.classId, super.key});
 
   final int classId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final records = ref.watch(GetClassRecordsProvider(classId: classId));
+  ConsumerState<ConsumerStatefulWidget> createState() => _ViewClassAttendanceState();
+}
+
+class _ViewClassAttendanceState extends ConsumerState<ViewClassAttendance> {
+
+  final isExpand = <bool>[];
+
+  
+  @override
+  Widget build(BuildContext context) {
+    final records = ref.watch(GetClassRecordsProvider(classId: widget.classId));
 
     return records.when(
       data: (classRecordList) {
-        return Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: const Text('Attendance'),
-            backgroundColor: Colors.greenAccent,
-          ),
-          body: SingleChildScrollView(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
-                  dataRowHeight: 50.0,
-                  columnSpacing: 15.0,
-                  columns: [
-                    const DataColumn(label: Text('Profile')),
-                    const DataColumn(label: Text('Reg No')),
-                    DataColumn(
-                      label: const Text('Present'),
-                      numeric: true,
-                      onSort: (columnIndex, ascending) {},
-                    ),
-                    DataColumn(
-                      label: const Text('Absent'),
-                      numeric: true,
-                      onSort: (columnIndex, ascending) {},
-                    ),
-                    DataColumn(
-                      label: const Text('Percentage'),
-                      numeric: true,
-                      onSort: (columnIndex, ascending) {},
-                    ),
-                  ],
-                  rows: classRecordList.data.map((record) {
-                    return DataRow(
-                      cells: [
-                        DataCell(
-                          CircleAvatar(child: Image.network('${Repository.url}/images/students/${record.regNo}')),
-                        ),
-                        DataCell(
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(record.regNo!, 
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
+
+        if (isExpand.length != classRecordList.data.length) {
+          isExpand.addAll(List.filled(classRecordList.data.length, false));
+        }
+
+        return GradientScaffold(
+          appBar: const PopBackAppBar(),
+          body: ListView.builder(
+            itemCount: classRecordList.data.length,
+            itemBuilder: (context, index) {
+              return ShadowContainer(
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+                  child: ExpansionPanelList(
+                    elevation: 0.0,
+                    expansionCallback: (panelIndex, isExpanded) {
+                      setState(() {
+                        isExpand[index] = !isExpanded;
+                      });
+                    },
+                    children: [
+                      ExpansionPanel(
+                        headerBuilder: (context, _) => Row(
+                          children: [
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Image.network(
+                                      '${Repository.url}/images/students/${classRecordList.data[index].regNo}'),
                                 ),
                               ),
-                              const Text('Name Ab'),
-                            ],
-                          ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Center(
+                                child: Text(
+                                  classRecordList.data[index].regNo!,
+                                  style: const TextStyle(
+                                    fontSize: 19.0,
+                                    fontWeight: FontWeight.w400,
+                                    color: darkTextColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SemiTitleText(text: '${classRecordList.data[index].percentage!}%'),
+                          ],
                         ),
-                        DataCell(Text(record.present)),
-                        DataCell(Text(record.absent!)),
-                        DataCell(Text(record.percentage!)),
-                      ],
-                    );
-                  }).toList()),
-            ),
+                        body: Column(
+                          children: [
+                            TableRecord(
+                              title: 'Name: ',
+                              value: classRecordList.data[index].studentName ?? "No Name",
+                            ),
+                            const Divider(endIndent: 20.0, indent: 20.0),
+                            TableRecord(
+                              title: 'No of Classes: ',
+                              value: '${int.parse(classRecordList.data[index].present) + int.parse(classRecordList.data[index].absent!)}',
+                            ),
+                            const Divider(endIndent: 20.0, indent: 20.0),
+                            TableRecord(
+                              title: 'Present: ',
+                              value: classRecordList.data[index].present,
+                            ),
+                            const Divider(endIndent: 20.0, indent: 20.0),
+                            TableRecord(
+                              title: 'Absent: ',
+                              value: classRecordList.data[index].absent!,
+                            ),
+                            const SizedBox(height: 15),
+                          ],
+                        ),
+                        isExpanded: isExpand[index],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
         );
       },
       error: (e, stk) => Center(child: Text('$e')),
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => const Loading(),
     );
   }
 }

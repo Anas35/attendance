@@ -1,6 +1,7 @@
 import 'package:attendance/pages/routes.dart';
 import 'package:attendance/src/subject/subject.dart';
 import 'package:attendance/src/teacher/teacher.dart';
+import 'package:attendance/widgets/gradient_scaffold.dart';
 import 'package:attendance/widgets/loading.dart';
 import 'package:attendance/widgets/page_card.dart';
 import 'package:attendance/widgets/pop_back.dart';
@@ -18,7 +19,7 @@ class SubjectView extends ConsumerWidget {
     return subjectList.when(
       data: (data) {
         final list = data.where((sub) => sub.departmentId == profile!.departmentId).toList();
-        return Scaffold(
+        return GradientScaffold(
           appBar: const PopBackAppBar(),
           body: ListView.builder(
             itemCount: list.length,

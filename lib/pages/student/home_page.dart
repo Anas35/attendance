@@ -1,6 +1,8 @@
 import 'package:attendance/pages/common/logout.dart';
 import 'package:attendance/pages/routes.dart';
 import 'package:attendance/src/student/student.dart';
+import 'package:attendance/styles.dart';
+import 'package:attendance/widgets/gradient_scaffold.dart';
 import 'package:attendance/widgets/page_card.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,16 +13,24 @@ class StudentHomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final student = ref.watch(studentStateProvider);
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Attendance'),
-        backgroundColor: Colors.greenAccent,
-      ),
+    return GradientScaffold(
       body: student.when(
-        data: (_) {
+        data: (data) {
           return ListView(
             children: [
+              const SizedBox(height: 30.0),
+                const Center(
+                  child: Text('Welcome Back', 
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: lightTextColor,
+                    ),
+                  ),
+                ),
+              const SizedBox(height: 5.0),
+                Center(child: Text('${data.studentName}!', style: headingStyle)),
+                const SizedBox(height: 20.0),
               PageCard(
                 label: "Today's Attendance",
                 iconData: Icons.event_note,
@@ -29,7 +39,7 @@ class StudentHomePage extends ConsumerWidget {
               PageCard(
                 label: "OverAll Attendance",
                 iconData: Icons.calendar_month,
-                onTap: () => Navigator.pushNamed(context, AppRoutes.viewStudentAttendance),
+                onTap: () => Navigator.pushNamed(context, AppRoutes.viewStudentAttendance, arguments: data.regNo),
               ),
               PageCard(
                 label: "Edit Profile",

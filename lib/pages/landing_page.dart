@@ -3,6 +3,7 @@ import 'package:attendance/pages/sign_up.dart';
 import 'package:attendance/pages/student/home_page.dart';
 import 'package:attendance/pages/teacher/home_page.dart';
 import 'package:attendance/src/data/data.dart';
+import 'package:attendance/widgets/gradient_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -28,29 +29,29 @@ class LandingPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset('assets/images/logo.png'),
-            const SizedBox(height: 30.0),
-            ElevatedButton(
-              onPressed: () {
-                context.pushNamed(AppRoutes.studentRegister);
-              },
-              child: const Text('Student'),
-            ),
-            const SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                context.pushNamed(AppRoutes.teacherRegister);
-              },
-              child: const Text('Teacher'),
-            ),
-          ],
+    return GradientScaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset('assets/images/logo.png'),
+              const SizedBox(height: 30.0),
+              ElevatedButton(
+                onPressed: () {
+                  context.pushNamed(AppRoutes.studentRegister);
+                },
+                child: const Text('Student'),
+              ),
+              const SizedBox(height: 20.0),
+              ElevatedButton(
+                onPressed: () {
+                  context.pushNamed(AppRoutes.teacherRegister);
+                },
+                child: const Text('Teacher'),
+              ),
+            ],
+          ),
         ),
-      ),
     );
   }
 }
