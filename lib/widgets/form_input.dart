@@ -9,10 +9,12 @@ class FormInput extends StatelessWidget {
     this.onSaved, 
     this.initialValue, 
     this.onChanged,
+    this.readOnly = false,
   });
 
   final String hintText;
   final String? initialValue;
+  final bool readOnly;
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
   final void Function(String?)? onChanged;
@@ -28,6 +30,7 @@ class FormInput extends StatelessWidget {
         initialValue: initialValue,
         validator: validator,
         onSaved: onSaved,
+        readOnly: readOnly,
         onChanged: onChanged,
         style: const TextStyle(
           fontSize: 17,

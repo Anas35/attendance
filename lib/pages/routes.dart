@@ -2,7 +2,7 @@ import 'package:attendance/pages/dynamic_login.dart';
 import 'package:attendance/pages/landing_page.dart';
 import 'package:attendance/pages/login.dart';
 import 'package:attendance/pages/student/home_page.dart';
-import 'package:attendance/pages/student/update.dart';
+import 'package:attendance/pages/student/student_profile.dart';
 import 'package:attendance/pages/student/view_student_attendance.dart';
 import 'package:attendance/pages/student/view_today_attendance.dart';
 import 'package:attendance/pages/student_sign_up.dart';
@@ -10,11 +10,10 @@ import 'package:attendance/pages/teacher/class_view.dart';
 import 'package:attendance/pages/teacher/home_page.dart';
 import 'package:attendance/pages/teacher/subject_view.dart';
 import 'package:attendance/pages/teacher/take_attendance.dart';
-import 'package:attendance/pages/teacher/update.dart';
+import 'package:attendance/pages/teacher/teacher_profile.dart';
 import 'package:attendance/pages/teacher/view_class_attendance.dart';
 import 'package:attendance/pages/teacher_sign_up.dart';
 import 'package:attendance/src/data/data.dart';
-import 'package:attendance/src/student/student.dart';
 
 import 'package:flutter/material.dart';
 

@@ -6,9 +6,9 @@ part 'today_attendance.g.dart';
 part 'today_attendance.freezed.dart';
 
 @riverpod
-Future<TodayAttendanceList> getTodayStudentRecords(GetTodayStudentRecordsRef ref, {required String regNo}) async {
+Future<TodayAttendanceList> getTodayStudentRecords(GetTodayStudentRecordsRef ref, {required String regNo, DateTime? date}) async {
   final repository = ref.watch(repositoryProvider);
-  return await repository.viewTodayStudentAttendance(regNo: regNo);
+  return await repository.viewTodayStudentAttendance(regNo: regNo, date: date);
 }
 
 @freezed

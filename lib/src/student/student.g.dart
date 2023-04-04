@@ -10,9 +10,9 @@ _$_Student _$$_StudentFromJson(Map<String, dynamic> json) => _$_Student(
       regNo: json['regNo'] as String,
       studentName: json['studentName'] as String,
       email: json['email'] as String,
-      rollNo: json['rollNo'] as int,
-      departmentId: json['departmentId'] as int,
-      classId: json['classId'] as int,
+      department:
+          Department.fromJson(json['department'] as Map<String, dynamic>),
+      classModel: Class.fromJson(json['class'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_StudentToJson(_$_Student instance) =>
@@ -20,9 +20,8 @@ Map<String, dynamic> _$$_StudentToJson(_$_Student instance) =>
       'regNo': instance.regNo,
       'studentName': instance.studentName,
       'email': instance.email,
-      'rollNo': instance.rollNo,
-      'departmentId': instance.departmentId,
-      'classId': instance.classId,
+      'department': instance.department,
+      'class': instance.classModel,
     };
 
 _$_StudentList _$$_StudentListFromJson(Map<String, dynamic> json) =>

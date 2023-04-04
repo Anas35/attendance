@@ -1,5 +1,3 @@
-import 'package:attendance/src/departments/departments.dart';
-
 mixin Validator {
   String? teacherIdValidator(String? value) {
     if (value == null || value.isEmpty) {

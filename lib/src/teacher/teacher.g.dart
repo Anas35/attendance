@@ -10,7 +10,8 @@ _$_Teacher _$$_TeacherFromJson(Map<String, dynamic> json) => _$_Teacher(
       teacherId: json['teacherId'] as int,
       teacherName: json['teacherName'] as String,
       email: json['email'] as String,
-      departmentId: json['departmentId'] as int,
+      department:
+          Department.fromJson(json['department'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_TeacherToJson(_$_Teacher instance) =>
@@ -18,7 +19,7 @@ Map<String, dynamic> _$$_TeacherToJson(_$_Teacher instance) =>
       'teacherId': instance.teacherId,
       'teacherName': instance.teacherName,
       'email': instance.email,
-      'departmentId': instance.departmentId,
+      'department': instance.department,
     };
 
 // **************************************************************************

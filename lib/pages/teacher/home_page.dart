@@ -1,7 +1,9 @@
 import 'package:attendance/pages/common/logout.dart';
 import 'package:attendance/pages/routes.dart';
+import 'package:attendance/pages/student/home_page.dart';
 import 'package:attendance/src/teacher/teacher.dart';
 import 'package:attendance/styles.dart';
+import 'package:attendance/widgets/error_page.dart';
 import 'package:attendance/widgets/gradient_scaffold.dart';
 import 'package:attendance/widgets/page_card.dart';
 import 'package:flutter/material.dart';
@@ -54,8 +56,8 @@ class TeacherHomePage extends ConsumerWidget {
               ],
             );
           },
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, stackTrace) => Center(child: Text('$error')),
+          loading: () => const HomePageLoading(),
+          error: (error, stackTrace) => ErrorPage(error: error, stackTrace: stackTrace),
         ),
     );
   }

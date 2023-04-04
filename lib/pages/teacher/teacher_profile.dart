@@ -1,10 +1,15 @@
 import 'dart:io';
 
+import 'package:attendance/src/departments/departments.dart';
 import 'package:attendance/src/repository.dart';
 import 'package:attendance/src/teacher/teacher.dart';
 import 'package:attendance/src/validator.dart';
+import 'package:attendance/styles.dart';
+import 'package:attendance/widgets/error_page.dart';
 import 'package:attendance/widgets/gradient_scaffold.dart';
-import 'package:attendance/widgets/select_departments.dart';
+import 'package:attendance/widgets/loading.dart';
+import 'package:attendance/widgets/pop_back.dart';
+import 'package:attendance/widgets/submit.dart';
 import 'package:attendance/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -26,22 +31,19 @@ class _TeacherUpdatePageState extends ConsumerState<TeacherUpdatePage> with Vali
   Widget build(BuildContext context) {
     final teacher = ref.watch(teacherStateProvider);
 
-    return GradientScaffold(
-      body: teacher.when(
-        data: (data) {
-          inputData['departmentId'] = '${data.departmentId}';
-          return Form(
+    return teacher.when(
+      data: (data) {
+        return GradientScaffold(
+          appBar: const PopBackAppBar(showFilter: false),
+          body: Form(
             key: form,
             child: Center(
               child: ListView(
                 shrinkWrap: true,
                 children: [
                   const SizedBox(height: 30),
-                  Center(
-                    child: Text(
-                      'Teacher Profile',
-                      style: Theme.of(context).textTheme.displaySmall,
-                    ),
+                  const Center(
+                    child: Text('Update Profile', style: headingStyle),
                   ),
                   const SizedBox(height: 30),
                   Center(
@@ -68,48 +70,57 @@ class _TeacherUpdatePageState extends ConsumerState<TeacherUpdatePage> with Vali
                       },
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
+                  FormInput(
+                    readOnly: true,
+                    initialValue: '${data.teacherId}',
+                    hintText: 'Enter Your Teacher Id..*',
+                  ),
                   FormInput(
                     initialValue: data.teacherName,
-                    hintText: 'Name',
+                    hintText: 'Enter Your Name..*',
                     validator: nameValidator,
                     onSaved: (value) => inputData['teacherName'] = value!,
                   ),
+                  SelectAsynInput<Department>(
+                    data: ref.watch(getDepartmentListProvider.future),
+                    itemAsString: (item) => item.departmentName,
+                    selectedItem: data.department,
+                    onChanged: (department) =>
+                        inputData['departmentId'] = '${department!.departmentId}',
+                    validator: dropdownValidator<Department>,
+                  ),
                   FormInput(
                     initialValue: data.email,
-                    hintText: 'Email',
+                    hintText: 'Enter your Email Address..*',
                     validator: emailValidator,
                     onSaved: (value) => inputData['email'] = value!,
                   ),
-                  SelectDepartments(
-                    departmentId: data.departmentId,
-                    onChanged: (department) =>
-                        inputData['departmentId'] = '${department!.departmentId}',
-                  ),
-                  const SizedBox(height: 30.0),
-                  Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (form.currentState!.validate()) {
-                          form.currentState!.save();
-                          ref
-                              .read(teacherStateProvider.notifier)
-                              .updateTeacherData(inputData, file);
-                        }
-                      },
-                      child: const Text('Update'),
+                  const SizedBox(height: 60.0),
+                  SubmitButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: lightPrimaryColor,
+                      fixedSize: const Size(180, 54.0),
+                      foregroundColor: darkTextColor,
                     ),
+                    onPressed: () {
+                      inputData['departmentId'] ??= '${data.department.departmentId}';
+                      if (form.currentState!.validate()) {
+                        form.currentState!.save();
+                        ref.read(teacherStateProvider.notifier).updateTeacherData(inputData, file);
+                      }
+                    },
+                    child: const Text('Update'),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 48.0),
                 ],
               ),
             ),
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stackTrace) => Center(child: Text('$error')),
-      ),
+          ),
+        );
+      },
+      loading: () => const Loading(),
+      error: (error, stackTrace) => ErrorPage(error: error, stackTrace: stackTrace),
     );
   }
 }

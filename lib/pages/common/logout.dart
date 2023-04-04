@@ -1,6 +1,5 @@
 import 'package:attendance/pages/routes.dart';
 import 'package:attendance/src/data/data.dart';
-import 'package:attendance/src/teacher/teacher.dart';
 import 'package:attendance/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

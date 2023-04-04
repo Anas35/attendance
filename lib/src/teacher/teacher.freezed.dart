@@ -23,7 +23,7 @@ mixin _$Teacher {
   int get teacherId => throw _privateConstructorUsedError;
   String get teacherName => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  int get departmentId => throw _privateConstructorUsedError;
+  Department get department => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +36,9 @@ abstract class $TeacherCopyWith<$Res> {
       _$TeacherCopyWithImpl<$Res, Teacher>;
   @useResult
   $Res call(
-      {int teacherId, String teacherName, String email, int departmentId});
+      {int teacherId, String teacherName, String email, Department department});
+
+  $DepartmentCopyWith<$Res> get department;
 }
 
 /// @nodoc
@@ -55,7 +57,7 @@ class _$TeacherCopyWithImpl<$Res, $Val extends Teacher>
     Object? teacherId = null,
     Object? teacherName = null,
     Object? email = null,
-    Object? departmentId = null,
+    Object? department = null,
   }) {
     return _then(_value.copyWith(
       teacherId: null == teacherId
@@ -70,11 +72,19 @@ class _$TeacherCopyWithImpl<$Res, $Val extends Teacher>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      departmentId: null == departmentId
-          ? _value.departmentId
-          : departmentId // ignore: cast_nullable_to_non_nullable
-              as int,
+      department: null == department
+          ? _value.department
+          : department // ignore: cast_nullable_to_non_nullable
+              as Department,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DepartmentCopyWith<$Res> get department {
+    return $DepartmentCopyWith<$Res>(_value.department, (value) {
+      return _then(_value.copyWith(department: value) as $Val);
+    });
   }
 }
 
@@ -86,7 +96,10 @@ abstract class _$$_TeacherCopyWith<$Res> implements $TeacherCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {int teacherId, String teacherName, String email, int departmentId});
+      {int teacherId, String teacherName, String email, Department department});
+
+  @override
+  $DepartmentCopyWith<$Res> get department;
 }
 
 /// @nodoc
@@ -102,7 +115,7 @@ class __$$_TeacherCopyWithImpl<$Res>
     Object? teacherId = null,
     Object? teacherName = null,
     Object? email = null,
-    Object? departmentId = null,
+    Object? department = null,
   }) {
     return _then(_$_Teacher(
       teacherId: null == teacherId
@@ -117,10 +130,10 @@ class __$$_TeacherCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      departmentId: null == departmentId
-          ? _value.departmentId
-          : departmentId // ignore: cast_nullable_to_non_nullable
-              as int,
+      department: null == department
+          ? _value.department
+          : department // ignore: cast_nullable_to_non_nullable
+              as Department,
     ));
   }
 }
@@ -132,7 +145,7 @@ class _$_Teacher implements _Teacher {
       {required this.teacherId,
       required this.teacherName,
       required this.email,
-      required this.departmentId});
+      required this.department});
 
   factory _$_Teacher.fromJson(Map<String, dynamic> json) =>
       _$$_TeacherFromJson(json);
@@ -144,11 +157,11 @@ class _$_Teacher implements _Teacher {
   @override
   final String email;
   @override
-  final int departmentId;
+  final Department department;
 
   @override
   String toString() {
-    return 'Teacher(teacherId: $teacherId, teacherName: $teacherName, email: $email, departmentId: $departmentId)';
+    return 'Teacher(teacherId: $teacherId, teacherName: $teacherName, email: $email, department: $department)';
   }
 
   @override
@@ -161,14 +174,14 @@ class _$_Teacher implements _Teacher {
             (identical(other.teacherName, teacherName) ||
                 other.teacherName == teacherName) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.departmentId, departmentId) ||
-                other.departmentId == departmentId));
+            (identical(other.department, department) ||
+                other.department == department));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, teacherId, teacherName, email, departmentId);
+      Object.hash(runtimeType, teacherId, teacherName, email, department);
 
   @JsonKey(ignore: true)
   @override
@@ -189,7 +202,7 @@ abstract class _Teacher implements Teacher {
       {required final int teacherId,
       required final String teacherName,
       required final String email,
-      required final int departmentId}) = _$_Teacher;
+      required final Department department}) = _$_Teacher;
 
   factory _Teacher.fromJson(Map<String, dynamic> json) = _$_Teacher.fromJson;
 
@@ -200,7 +213,7 @@ abstract class _Teacher implements Teacher {
   @override
   String get email;
   @override
-  int get departmentId;
+  Department get department;
   @override
   @JsonKey(ignore: true)
   _$$_TeacherCopyWith<_$_Teacher> get copyWith =>

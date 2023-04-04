@@ -23,9 +23,9 @@ mixin _$Student {
   String get regNo => throw _privateConstructorUsedError;
   String get studentName => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  int get rollNo => throw _privateConstructorUsedError;
-  int get departmentId => throw _privateConstructorUsedError;
-  int get classId => throw _privateConstructorUsedError;
+  Department get department => throw _privateConstructorUsedError;
+  @JsonKey(name: 'class')
+  Class get classModel => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,9 +41,11 @@ abstract class $StudentCopyWith<$Res> {
       {String regNo,
       String studentName,
       String email,
-      int rollNo,
-      int departmentId,
-      int classId});
+      Department department,
+      @JsonKey(name: 'class') Class classModel});
+
+  $DepartmentCopyWith<$Res> get department;
+  $ClassCopyWith<$Res> get classModel;
 }
 
 /// @nodoc
@@ -62,9 +64,8 @@ class _$StudentCopyWithImpl<$Res, $Val extends Student>
     Object? regNo = null,
     Object? studentName = null,
     Object? email = null,
-    Object? rollNo = null,
-    Object? departmentId = null,
-    Object? classId = null,
+    Object? department = null,
+    Object? classModel = null,
   }) {
     return _then(_value.copyWith(
       regNo: null == regNo
@@ -79,19 +80,31 @@ class _$StudentCopyWithImpl<$Res, $Val extends Student>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      rollNo: null == rollNo
-          ? _value.rollNo
-          : rollNo // ignore: cast_nullable_to_non_nullable
-              as int,
-      departmentId: null == departmentId
-          ? _value.departmentId
-          : departmentId // ignore: cast_nullable_to_non_nullable
-              as int,
-      classId: null == classId
-          ? _value.classId
-          : classId // ignore: cast_nullable_to_non_nullable
-              as int,
+      department: null == department
+          ? _value.department
+          : department // ignore: cast_nullable_to_non_nullable
+              as Department,
+      classModel: null == classModel
+          ? _value.classModel
+          : classModel // ignore: cast_nullable_to_non_nullable
+              as Class,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DepartmentCopyWith<$Res> get department {
+    return $DepartmentCopyWith<$Res>(_value.department, (value) {
+      return _then(_value.copyWith(department: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ClassCopyWith<$Res> get classModel {
+    return $ClassCopyWith<$Res>(_value.classModel, (value) {
+      return _then(_value.copyWith(classModel: value) as $Val);
+    });
   }
 }
 
@@ -106,9 +119,13 @@ abstract class _$$_StudentCopyWith<$Res> implements $StudentCopyWith<$Res> {
       {String regNo,
       String studentName,
       String email,
-      int rollNo,
-      int departmentId,
-      int classId});
+      Department department,
+      @JsonKey(name: 'class') Class classModel});
+
+  @override
+  $DepartmentCopyWith<$Res> get department;
+  @override
+  $ClassCopyWith<$Res> get classModel;
 }
 
 /// @nodoc
@@ -124,9 +141,8 @@ class __$$_StudentCopyWithImpl<$Res>
     Object? regNo = null,
     Object? studentName = null,
     Object? email = null,
-    Object? rollNo = null,
-    Object? departmentId = null,
-    Object? classId = null,
+    Object? department = null,
+    Object? classModel = null,
   }) {
     return _then(_$_Student(
       regNo: null == regNo
@@ -141,18 +157,14 @@ class __$$_StudentCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      rollNo: null == rollNo
-          ? _value.rollNo
-          : rollNo // ignore: cast_nullable_to_non_nullable
-              as int,
-      departmentId: null == departmentId
-          ? _value.departmentId
-          : departmentId // ignore: cast_nullable_to_non_nullable
-              as int,
-      classId: null == classId
-          ? _value.classId
-          : classId // ignore: cast_nullable_to_non_nullable
-              as int,
+      department: null == department
+          ? _value.department
+          : department // ignore: cast_nullable_to_non_nullable
+              as Department,
+      classModel: null == classModel
+          ? _value.classModel
+          : classModel // ignore: cast_nullable_to_non_nullable
+              as Class,
     ));
   }
 }
@@ -164,9 +176,8 @@ class _$_Student implements _Student {
       {required this.regNo,
       required this.studentName,
       required this.email,
-      required this.rollNo,
-      required this.departmentId,
-      required this.classId});
+      required this.department,
+      @JsonKey(name: 'class') required this.classModel});
 
   factory _$_Student.fromJson(Map<String, dynamic> json) =>
       _$$_StudentFromJson(json);
@@ -178,15 +189,14 @@ class _$_Student implements _Student {
   @override
   final String email;
   @override
-  final int rollNo;
+  final Department department;
   @override
-  final int departmentId;
-  @override
-  final int classId;
+  @JsonKey(name: 'class')
+  final Class classModel;
 
   @override
   String toString() {
-    return 'Student(regNo: $regNo, studentName: $studentName, email: $email, rollNo: $rollNo, departmentId: $departmentId, classId: $classId)';
+    return 'Student(regNo: $regNo, studentName: $studentName, email: $email, department: $department, classModel: $classModel)';
   }
 
   @override
@@ -198,16 +208,16 @@ class _$_Student implements _Student {
             (identical(other.studentName, studentName) ||
                 other.studentName == studentName) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.rollNo, rollNo) || other.rollNo == rollNo) &&
-            (identical(other.departmentId, departmentId) ||
-                other.departmentId == departmentId) &&
-            (identical(other.classId, classId) || other.classId == classId));
+            (identical(other.department, department) ||
+                other.department == department) &&
+            (identical(other.classModel, classModel) ||
+                other.classModel == classModel));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, regNo, studentName, email, rollNo, departmentId, classId);
+      runtimeType, regNo, studentName, email, department, classModel);
 
   @JsonKey(ignore: true)
   @override
@@ -228,9 +238,8 @@ abstract class _Student implements Student {
       {required final String regNo,
       required final String studentName,
       required final String email,
-      required final int rollNo,
-      required final int departmentId,
-      required final int classId}) = _$_Student;
+      required final Department department,
+      @JsonKey(name: 'class') required final Class classModel}) = _$_Student;
 
   factory _Student.fromJson(Map<String, dynamic> json) = _$_Student.fromJson;
 
@@ -241,11 +250,10 @@ abstract class _Student implements Student {
   @override
   String get email;
   @override
-  int get rollNo;
+  Department get department;
   @override
-  int get departmentId;
-  @override
-  int get classId;
+  @JsonKey(name: 'class')
+  Class get classModel;
   @override
   @JsonKey(ignore: true)
   _$$_StudentCopyWith<_$_Student> get copyWith =>

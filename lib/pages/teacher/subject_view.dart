@@ -18,7 +18,7 @@ class SubjectView extends ConsumerWidget {
 
     return subjectList.when(
       data: (data) {
-        final list = data.where((sub) => sub.departmentId == profile!.departmentId).toList();
+        final list = data.where((sub) => sub.departmentId == profile!.department.departmentId).toList();
         return GradientScaffold(
           appBar: const PopBackAppBar(),
           body: ListView.builder(

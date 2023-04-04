@@ -40,7 +40,7 @@ Map<String, dynamic> _$$_TodayAttendanceToJson(_$_TodayAttendance instance) =>
 // **************************************************************************
 
 String _$getTodayStudentRecordsHash() =>
-    r'6a8497486daee9b412607b0992bf66aad1dae824';
+    r'0eac0990a623a195ce13abefe5890f2ed3692fbd';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -79,9 +79,11 @@ class GetTodayStudentRecordsFamily
   /// See also [getTodayStudentRecords].
   GetTodayStudentRecordsProvider call({
     required String regNo,
+    DateTime? date,
   }) {
     return GetTodayStudentRecordsProvider(
       regNo: regNo,
+      date: date,
     );
   }
 
@@ -91,6 +93,7 @@ class GetTodayStudentRecordsFamily
   ) {
     return call(
       regNo: provider.regNo,
+      date: provider.date,
     );
   }
 
@@ -115,10 +118,12 @@ class GetTodayStudentRecordsProvider
   /// See also [getTodayStudentRecords].
   GetTodayStudentRecordsProvider({
     required this.regNo,
+    this.date,
   }) : super.internal(
           (ref) => getTodayStudentRecords(
             ref,
             regNo: regNo,
+            date: date,
           ),
           from: getTodayStudentRecordsProvider,
           name: r'getTodayStudentRecordsProvider',
@@ -132,16 +137,20 @@ class GetTodayStudentRecordsProvider
         );
 
   final String regNo;
+  final DateTime? date;
 
   @override
   bool operator ==(Object other) {
-    return other is GetTodayStudentRecordsProvider && other.regNo == regNo;
+    return other is GetTodayStudentRecordsProvider &&
+        other.regNo == regNo &&
+        other.date == date;
   }
 
   @override
   int get hashCode {
     var hash = _SystemHash.combine(0, runtimeType.hashCode);
     hash = _SystemHash.combine(hash, regNo.hashCode);
+    hash = _SystemHash.combine(hash, date.hashCode);
 
     return _SystemHash.finish(hash);
   }

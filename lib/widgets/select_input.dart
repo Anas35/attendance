@@ -1,8 +1,8 @@
 import 'package:attendance/styles.dart';
+import 'package:attendance/widgets/loading.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer_animation/shimmer_animation.dart';
 
 class SelectInput<T> extends StatelessWidget {
 
@@ -48,10 +48,12 @@ class SelectAsynInput<T> extends StatefulWidget {
     super.key, 
     required this.data, 
     this.itemAsString,
+    this.selectedItem,
     this.enabled = true,
   });
 
   final Future<List<T>> data;
+  final T? selectedItem;
   final bool enabled;
   final void Function(T?)? onChanged;
   final String? Function(T?)? validator;
@@ -71,6 +73,7 @@ class _SelectAsynInputState<T> extends State<SelectAsynInput<T>> {
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
       child: DropdownSearch<T>(
         enabled: widget.enabled,
+        selectedItem: widget.selectedItem,
         onChanged: widget.onChanged,
         validator: widget.validator,
         itemAsString: widget.itemAsString,
@@ -111,12 +114,14 @@ class _SelectAsynInputState<T> extends State<SelectAsynInput<T>> {
                 children: List.generate(4, (index) {
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 8.0, 30.0, 8.0),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        color: darkGrey,
+                    child: ShimmerLoading(
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          color: darkGrey,
+                        ),
+                        height: 24.0,
                       ),
-                      height: 24.0,
                     ),
                   );
                 }),

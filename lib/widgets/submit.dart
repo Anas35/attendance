@@ -1,4 +1,3 @@
-import 'package:attendance/styles.dart';
 import 'package:flutter/material.dart';
 
 class SubmitButton extends StatelessWidget {

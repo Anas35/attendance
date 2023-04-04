@@ -24,6 +24,12 @@ const darkSubTitleStyle = TextStyle(
   color: darkTextColor,
 );
 
+const lightSubTitleStyle = TextStyle(
+  fontSize: 18.0,
+  fontWeight: FontWeight.w500,
+  color: lightTextColor,
+);
+
 const textFieldColor = Color(0xFFE0E0E0);
 
 const darkTextColor = Color(0xFF333232);

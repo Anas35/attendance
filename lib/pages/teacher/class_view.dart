@@ -3,7 +3,6 @@ import 'package:attendance/src/class/class.dart';
 import 'package:attendance/src/departments/departments.dart';
 import 'package:attendance/src/teacher/teacher.dart';
 import 'package:attendance/styles.dart';
-import 'package:attendance/widgets/filter_expansion_panel.dart';
 import 'package:attendance/widgets/gradient_scaffold.dart';
 import 'package:attendance/widgets/loading.dart';
 import 'package:attendance/widgets/page_card.dart';
@@ -22,7 +21,8 @@ class ClassView extends ConsumerStatefulWidget {
 }
 
 class _ClassViewState extends ConsumerState<ClassView> {
-  int? selectedDept;
+
+  Department? selectedDept;
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +30,12 @@ class _ClassViewState extends ConsumerState<ClassView> {
     final classList = ref.watch(GetClassListProvider());
     final department = ref.watch(getDepartmentListProvider);
 
-    selectedDept ??= profile.departmentId;
+    selectedDept ??= profile.department;
 
     return classList.when(
       loading: () => const Loading(),
       data: (data) {
-        final list = data.where((cls) => cls.departmentId == selectedDept).toList();
+        final list = data.where((cls) => cls.departmentId == selectedDept!.departmentId).toList();
         return GradientScaffold(
           appBar: const PopBackAppBar(),
           drawer: Drawer(
@@ -61,11 +61,11 @@ class _ClassViewState extends ConsumerState<ClassView> {
                             children: data.map((dept) {
                               return CheckboxListTile(
                                 title: Text(dept.departmentName, style: darkTitleStyle),
-                                value: selectedDept == dept.departmentId,
+                                value: selectedDept == dept,
                                 onChanged: (value) {
                                   setState(() {
                                     if (value == true) {
-                                      selectedDept = dept.departmentId;
+                                      selectedDept = dept;
                                     }
                                     Navigator.pop(context);
                                   });

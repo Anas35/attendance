@@ -20,7 +20,7 @@ Repository repository(RepositoryRef ref) => Repository();
 
 class Repository {
 
-  static String get url => 'http://192.168.0.105:8000/api/v1';
+  static String get url => 'https://attendance.osc-fr1.scalingo.io/api/v1';
 
   Future<List<Department>> getDepartments() async {
     final response = await http.get(
@@ -237,15 +237,20 @@ class Repository {
       final json = jsonDecode(response.body);
       return StudentAttendance.fromJson(json['data']);
     } else {
-      print(response.body);
       throw response.statusCode;
     }
   }
 
-  Future<TodayAttendanceList> viewTodayStudentAttendance({required String regNo}) async {
+  Future<TodayAttendanceList> viewTodayStudentAttendance({required String regNo, DateTime? date}) async {
+
+    String localUrl = '$url/students/$regNo/recordsToday?';
+
+    if (date != null) {
+      localUrl += 'date=${date.format}';
+    }
 
     final response = await http.get(
-      Uri.parse('$url/students/$regNo/recordsToday'),
+      Uri.parse(localUrl),
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',

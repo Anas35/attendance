@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:attendance/src/data/data.dart';
+import 'package:attendance/src/departments/departments.dart';
 import 'package:attendance/src/repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -42,7 +43,7 @@ class Teacher with _$Teacher {
     required int teacherId,
     required String teacherName,
     required String email,
-    required int departmentId,
+    required Department department,
   }) = _Teacher;
 
   factory Teacher.fromJson(Map<String, Object?> json) => _$TeacherFromJson(json);
